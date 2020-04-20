@@ -1,31 +1,23 @@
 #ifndef OBSTACLE_H
 #define OBSTACLE_H
 
-#include <vector>
 #include "SDL.h"
+#include "gameobject.h"
+#include <vector>
 
-class Obstacle {
- public:
-  Obstacle(int grid_width, int grid_height)
-      : grid_width(grid_width),
-        grid_height(grid_height),
-        head_x(grid_width / 2),
-        head_y(grid_height / 2) {}
+class Obstacle : public GameObject {
+  public:
+    Obstacle(int pos_x, int pos_y);
 
-  void Update();
+    void Update() override;
 
-  float speed{0.1f};
-  int size{1};
-  bool alive{true};
-  float head_x;
-  float head_y;
-  std::vector<SDL_Point> body;
+    void Accelerate(Direction dir) override {};
+    void Accelerate();
 
- private:
-  void UpdatePosition();
+    void Decelerate() override {};
 
-  int grid_width;
-  int grid_height;
+    int size{1};
+    std::vector<SDL_Point> body;
 };
 
 #endif

@@ -9,8 +9,6 @@ enum class Direction { kNone, kUp, kDown, kLeft, kRight };
 
 class GameObject {
   public:
-    void UpdatePosition();
-
     void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a);
     std::vector<Uint8> GetColor() { return _color; };
 
@@ -22,14 +20,15 @@ class GameObject {
 
     virtual void Update() = 0;
 
-    float _pos_x, _pos_y;
+    std::vector<SDL_Point> body;
 
   protected:
     std::vector<Uint8> _color{0xFF, 0xFF, 0xFF, 0xFF};
     std::vector<float> _velocity;
 
-    int _grid_height;
-    int _grid_width;
+    void UpdatePosition();
+
+    float _pos_x, _pos_y;
 };
 
 #endif

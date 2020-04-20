@@ -18,7 +18,7 @@ endif()
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} src)
 
-add_executable(SpaceEvader src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/player.cpp src/gameobject.cpp)
+add_executable(SpaceEvader src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/player.cpp src/gameobject.cpp src/obstacle.cpp)
 
 string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 

@@ -9,6 +9,8 @@ Player::Player(int grid_width, int grid_height, float pos_x, float pos_y){
     _pos_y = pos_y;
 
     _velocity = {0.0f, 0.0f};
+
+    body.push_back(SDL_Point{0,0});
 }
 
 void Player::Update() {
@@ -37,8 +39,13 @@ void Player::Update() {
     _pos_x = fmod(_pos_x + _grid_width, _grid_width);
     _pos_y = fmod(_pos_y + _grid_height, _grid_height);
 
+    UpdateBody();
 }
 
+void Player::UpdateBody(){
+    SDL_Point player = {static_cast<int>(_pos_x), static_cast<int>(_pos_y) };
+    body[0] = player;
+}
 
 // Inefficient method to check if cell is occupied by player.
 bool Player::PlayerCell(int x, int y) {

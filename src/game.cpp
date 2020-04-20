@@ -3,12 +3,10 @@
 #include "SDL.h"
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : player(grid_width, grid_height, grid_width / 2, grid_height / 2),
+    : player(grid_width, grid_height, grid_width / 4, grid_height / 2),
       engine(dev()),
       random_w(1, static_cast<int>(grid_width--)),
-      random_h(1, static_cast<int>(grid_height--)) {
-  PlaceFood();
-}
+      random_h(1, static_cast<int>(grid_height--)) {}
 
 void Game::Run(Controller const &controller, Renderer &renderer,
                std::size_t target_frame_duration) {
@@ -22,10 +20,12 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   while (running) {
     frame_start = SDL_GetTicks();
 
+    Obstacle go {random_w(engine), random_h(engine)};
+
     // Input, Update, Render - the main game loop.
     controller.HandleInput(running, player);
     Update();
-    renderer.Render(player, food);
+    renderer.Render(player, go);
 
     frame_end = SDL_GetTicks();
 
@@ -50,36 +50,10 @@ void Game::Run(Controller const &controller, Renderer &renderer,
   }
 }
 
-void Game::PlaceFood() {
-  int x, y;
-  while (true) {
-    x = random_w(engine);
-    y = random_h(engine);
-    // Check that the location is not occupied by a player item before placing
-    // food.
-    if (!player.PlayerCell(x, y)) {
-      food.x = x;
-      food.y = y;
-      return;
-    }
-  }
-}
-
 void Game::Update() {
   if (!player.alive) return;
 
   player.Update();
-
-  int new_x = static_cast<int>(player._pos_x);
-  int new_y = static_cast<int>(player._pos_y);
-
-  // Check if there's food over here
-  if (food.x == new_x && food.y == new_y) {
-    score++;
-    PlaceFood();
-    // Grow player and increase speed.
-    // player.speed += 0.02;
-  }
 }
 
 int Game::GetScore() const { return score; }

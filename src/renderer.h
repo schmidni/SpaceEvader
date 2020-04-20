@@ -4,6 +4,7 @@
 #include <vector>
 #include "SDL.h"
 #include "player.h"
+#include "obstacle.h"
 
 class Renderer {
  public:
@@ -11,7 +12,7 @@ class Renderer {
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Player const player, SDL_Point const &food);
+  void Render(Player const &player, Obstacle const &go);
   void UpdateWindowTitle(int score, int fps);
 
  private:

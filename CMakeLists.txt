@@ -18,15 +18,15 @@ endif()
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} src)
 
-add_executable(SnakeGame src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/snake.cpp)
+add_executable(SpaceEvader src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/player.cpp src/gameobject.cpp)
 
 string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 
-target_link_libraries(SnakeGame ${SDL2_LIBRARIES})
+target_link_libraries(SpaceEvader ${SDL2_LIBRARIES})
 
 if(WIN_Build)
-    add_custom_command(TARGET SnakeGame POST_BUILD
+    add_custom_command(TARGET SpaceEvader POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${PROJECT_SOURCE_DIR}/thirdParty/sdl_win/lib/x64/SDL2.dll"
-            $<TARGET_FILE_DIR:SnakeGame>)
+            $<TARGET_FILE_DIR:SpaceEvader>)
 endif()

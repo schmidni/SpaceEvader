@@ -1,9 +1,7 @@
-cmake_minimum_required(VERSION 3.7)
+#cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.11.3)
 
-add_definitions(-std=c++17)
-
-set(CXX_FLAGS "-Wall")
-set(CMAKE_CXX_FLAGS, "${CXX_FLAGS}")
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++17 -pthread")
 
 project(SDL2Test)
 
@@ -18,7 +16,11 @@ endif()
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS} src)
 
-add_executable(SpaceEvader src/main.cpp src/game.cpp src/controller.cpp src/renderer.cpp src/player.cpp src/gameobject.cpp src/obstacle.cpp)
+# Find all executables
+file(GLOB project_SRCS src/*.cpp) #src/*.h
+
+# Add project executable
+add_executable(SpaceEvader ${project_SRCS})
 
 string(STRIP "${SDL2_LIBRARIES}" SDL2_LIBRARIES)
 

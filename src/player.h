@@ -14,17 +14,16 @@ class Player : public GameObject {
     void Accelerate(Direction dir) override;
     void Decelerate() override;
 
-    bool PlayerCell(int x, int y);
-
     Direction direction = Direction::kNone;
 
     bool alive{true};
+    
     std::vector<SDL_Point> body;
 
   private:
     int _grid_height;
     int _grid_width;
-    void UpdateBody();
+    void UpdateBody() override;
 };
 
 #endif

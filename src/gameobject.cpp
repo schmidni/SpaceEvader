@@ -16,4 +16,5 @@ void GameObject::SetVelocity(float x, float y) {
 void GameObject::UpdatePosition() {
     _pos_x -= _velocity[0];
     _pos_y -= _velocity[1];
+    UpdateBody();
 }

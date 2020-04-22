@@ -12,7 +12,7 @@ class Renderer {
            const std::size_t grid_width, const std::size_t grid_height);
   ~Renderer();
 
-  void Render(Player const &player, Obstacle const &go);
+  void Render(Player const &player, std::vector<Obstacle> const &go);
   void UpdateWindowTitle(int score, int fps);
 
  private:

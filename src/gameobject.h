@@ -27,7 +27,8 @@ class GameObject {
     std::vector<float> _velocity;
 
     void UpdatePosition();
-
+    virtual void UpdateBody() = 0;
+    
     float _pos_x, _pos_y;
 };
 

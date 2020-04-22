@@ -47,35 +47,17 @@ void Player::UpdateBody(){
     body[0] = player;
 }
 
-// Inefficient method to check if cell is occupied by player.
-bool Player::PlayerCell(int x, int y) {
-    if (x == static_cast<int>(_pos_x) && y == static_cast<int>(_pos_y)) {
-        return true;
-    }
-    for (auto const &item : body) {
-        if (x == item.x && y == item.y) {
-            return true;
-        }
-    }
-    return false;
-}
-
 void Player::Accelerate(Direction dir){
     float v = std::abs(_velocity[1]);
 
     if (v == 0 && dir == Direction::kUp)
-        _velocity[1] += 0.07;
+        _velocity[1] += 0.075;
     if (v == 0 && dir == Direction::kDown)
-        _velocity[1] -= 0.07;
-    if ( v <= 0.4 )
-        _velocity[1] += _velocity[1]*0.07;
+        _velocity[1] -= 0.075;
+    if ( v <= 0.5 )
+        _velocity[1] += _velocity[1]*0.2;
 }
 
 void Player::Decelerate(){
-    float v = std::abs(_velocity[1]);
-
-    if( v >= 0 && v <= 0.07  )
-        _velocity[1] += -1 * _velocity[1];
-    else
-        _velocity[1] += _velocity[1]*-0.07;
+    _velocity[1] = 0;
 }

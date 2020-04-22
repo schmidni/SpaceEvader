@@ -36,7 +36,7 @@ Renderer::~Renderer() {
     SDL_Quit();
 }
 
-void Renderer::Render(Player const &player, Obstacle const &go) {
+void Renderer::Render(Player const &player, std::vector<Obstacle> const &go) {
     SDL_Rect block;
     block.w = screen_width / grid_width;
     block.h = screen_height / grid_height;
@@ -47,10 +47,12 @@ void Renderer::Render(Player const &player, Obstacle const &go) {
 
     // Render obstacles body
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-    for (SDL_Point const &point : go.body) {
-        block.x = point.x * block.w;
-        block.y = point.y * block.h;
-        SDL_RenderFillRect(sdl_renderer, &block);
+    for (Obstacle const &obs : go) {
+        for (SDL_Point const &point : obs.body) {
+            block.x = point.x * block.w;
+            block.y = point.y * block.h;
+            SDL_RenderFillRect(sdl_renderer, &block);
+        }
     }
 
     // Render player

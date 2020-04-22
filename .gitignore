@@ -1,6 +1,7 @@
 *.swp
 *.osm
 *.o
+.vscode/
 draw.cpp
 test.cpp
 build/

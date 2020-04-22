@@ -7,9 +7,9 @@
 #include "player.h"
 #include "renderer.h"
 
+#include <future>
 #include <random>
 #include <vector>
-#include <future>
 
 class Game {
   public:
@@ -34,11 +34,11 @@ class Game {
     std::uniform_int_distribution<int> random_h;
 
     int score{0};
-    float spawnInterval{2000};          // spawn obstacle every x ms
-    float spawnFactor{1.2};             // decrease spawn inverval with time
-    float accelerationInterval{20000};  // accelerate game every x ms
-    float accelerationFactor{1.3};      // accelerate obstacles with time
-    int skipSpawns{0};                  // break between spawns when game gets accelerated
+    float spawnInterval{2000};         // spawn obstacle every x ms
+    float spawnFactor{1.2};            // decrease spawn inverval with time
+    float accelerationInterval{20000}; // accelerate game every x ms
+    float accelerationFactor{1.3};     // accelerate obstacles with time
+    int skipSpawns{0}; // break between spawns when game gets accelerated
 
     Obstacle CreateObstacle();
 

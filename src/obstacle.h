@@ -22,14 +22,11 @@ class Obstacle : public GameObject {
     std::vector<SDL_Point> body;
 
   protected:
-    
-
   private:
     void UpdateBody() override;
     void CheckCollision();
     int _size{1};
     Player *_player;
-
 };
 
 #endif

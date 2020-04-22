@@ -1,7 +1,7 @@
 #include "game.h"
 #include "SDL.h"
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <vector>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
@@ -22,7 +22,6 @@ void Game::Run(Controller const &controller, Renderer &renderer,
     int frame_count = 0;
     bool running = true;
     float baseFactor = accelerationFactor;
-
 
     while (running) {
         frame_start = SDL_GetTicks();
@@ -55,13 +54,13 @@ void Game::Run(Controller const &controller, Renderer &renderer,
             obstacle_timestamp = frame_end;
         }
 
-        // accelerate game
+        // accelerate game by accelerating obstacles and reducing time between spawns
         if (frame_end - acceleration_timestamp >= accelerationInterval) {
             accelerationFactor *= baseFactor;
             spawnInterval /= spawnFactor;
-            acceleration_timestamp = frame_end;
+            // skip spawns when game is being accelerated
             skipSpawns = 2;
-            std::cout << "Spawn Interval: " << spawnInterval << " accelerationFactor: " << accelerationFactor << "\n";
+            acceleration_timestamp = frame_end;
         }
 
         // delay the loop to achieve the correct frame rate.
@@ -83,17 +82,18 @@ void Game::Update() {
         obs.Update();
     }
 
-    // Asynchronous solution using tasks. However the overhead of creating tasks for
-    // updating the obstacles is slower than the synchronous way
-    // for (Obstacle &obs : obstacles) {
+    // Asynchronous solution using tasks. However the overhead of creating tasks
+    // for updating the obstacles is slower than the synchronous way for
+    // (Obstacle &obs : obstacles) {
     //     futures.emplace_back(std::async(&Obstacle::Update, &obs));
     // }
-    // std::for_each(futures.begin(), futures.end(), [](std::future<void> &ftr) {
+    // std::for_each(futures.begin(), futures.end(), [](std::future<void> &ftr)
+    // {
     //     ftr.wait();
     // });
     // futures.clear();
 
-    // check if obstacle expired, if so delete and count score up
+    // check if oldest obstacle expired, if so delete and count score up
     if (obstacles.size() > 0 && obstacles[0].body[0].x < 0) {
         obstacles.erase(obstacles.begin());
         score++;
@@ -101,10 +101,16 @@ void Game::Update() {
 }
 
 Obstacle Game::CreateObstacle() {
+    // randomly spawn at bottom or top of screen
     int side = random_w(engine);
     Obstacle go{grid_width, side * grid_height, player};
+
+    // set random size, positive if spawned at bottom and vice versa
     int size = side ? (-1 * random_h(engine)) : random_h(engine);
     go.SetSize(size);
+
+    // accelerate to current speed
     go.Accelerate(accelerationFactor);
+
     return go;
 }

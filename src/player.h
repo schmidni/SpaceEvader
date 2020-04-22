@@ -17,7 +17,7 @@ class Player : public GameObject {
     Direction direction = Direction::kNone;
 
     bool alive{true};
-    
+
     std::vector<SDL_Point> body;
 
   private:

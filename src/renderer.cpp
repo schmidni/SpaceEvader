@@ -45,7 +45,7 @@ void Renderer::Render(Player const &player, std::vector<Obstacle> const &go) {
     SDL_SetRenderDrawColor(sdl_renderer, 0x1E, 0x1E, 0x1E, 0xFF);
     SDL_RenderClear(sdl_renderer);
 
-    // Render obstacles body
+    // Render obstacles
     SDL_SetRenderDrawColor(sdl_renderer, 0xFF, 0xFF, 0xFF, 0xFF);
     for (Obstacle const &obs : go) {
         for (SDL_Point const &point : obs.body) {

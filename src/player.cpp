@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 
+// Player Constructor
 Player::Player(int grid_width, int grid_height, float pos_x, float pos_y){
     _grid_height = grid_height;
     _grid_width = grid_width;
@@ -13,6 +14,7 @@ Player::Player(int grid_width, int grid_height, float pos_x, float pos_y){
     body.push_back(SDL_Point{0,0});
 }
 
+// Player update loop, controls player movement and position update
 void Player::Update() {
     float dir_y = GetVelocity()[1];
 
@@ -42,22 +44,25 @@ void Player::Update() {
     UpdateBody();
 }
 
+// Update player body, consists only of one point
 void Player::UpdateBody(){
     SDL_Point player = {static_cast<int>(_pos_x), static_cast<int>(_pos_y) };
     body[0] = player;
 }
 
+// Dynamic acceleration of player
 void Player::Accelerate(Direction dir){
     float v = std::abs(_velocity[1]);
 
     if (v == 0 && dir == Direction::kUp)
-        _velocity[1] += 0.075;
+        _velocity[1] += 0.15;
     if (v == 0 && dir == Direction::kDown)
-        _velocity[1] -= 0.075;
-    if ( v <= 0.5 )
+        _velocity[1] -= 0.15;
+    if ( v <= 0.6 )
         _velocity[1] += _velocity[1]*0.2;
 }
 
+// stop immediately
 void Player::Decelerate(){
     _velocity[1] = 0;
 }

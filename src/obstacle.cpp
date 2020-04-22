@@ -48,7 +48,7 @@ void Obstacle::CheckCollision(){
 
     for (SDL_Point b : body){
         if (b.x == p_x && b.y == p_y){
-            // _player->alive = false;
+            _player->alive = false;
         }
     }
 }

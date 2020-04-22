@@ -5,7 +5,7 @@
 #include <vector>
 
 Game::Game(std::size_t grid_width, std::size_t grid_height)
-    : player(grid_width, grid_height, grid_width / 4, grid_height / 2),
+    : player(grid_width, grid_height, grid_width / 5, grid_height / 2),
       engine(dev()), random_w(0, 1),
       random_h(grid_height / 3, 3 * grid_height / 4),
       grid_width(static_cast<int>(grid_width)),
@@ -48,15 +48,19 @@ void Game::Run(Controller const &controller, Renderer &renderer,
 
         // spawn obstacles
         if (frame_end - obstacle_timestamp >= spawnInterval) {
-            obstacles.push_back(std::move(CreateObstacle()));
+            if (0 == skipSpawns)
+                obstacles.push_back(std::move(CreateObstacle()));
+            else
+                skipSpawns--;
             obstacle_timestamp = frame_end;
         }
 
         // accelerate game
         if (frame_end - acceleration_timestamp >= accelerationInterval) {
             accelerationFactor *= baseFactor;
-            spawnInterval /= baseFactor;
+            spawnInterval /= spawnFactor;
             acceleration_timestamp = frame_end;
+            skipSpawns = 2;
             std::cout << "Spawn Interval: " << spawnInterval << " accelerationFactor: " << accelerationFactor << "\n";
         }
 
